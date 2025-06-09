@@ -10,6 +10,10 @@
     padding: 0;
 }
 
+li {
+    list-style-type: none;
+}
+
 html {
     font-size: $font-size-base;
     -webkit-text-size-adjust: 100%;
