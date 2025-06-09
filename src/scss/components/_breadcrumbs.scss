@@ -1,0 +1,9 @@
+.breadcrumbs {
+    .breadcrumbs-list {
+        li {
+            &:last-child {
+                color: #000;
+            }
+        }
+    }
+} 

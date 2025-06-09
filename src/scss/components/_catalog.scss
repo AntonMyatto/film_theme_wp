@@ -1,0 +1,130 @@
+@use "../base/variables" as *;
+@use "../base/mixins" as *;
+
+// Общие стили для каталога (главная и архив)
+.catalog-layout {
+    display: flex;
+    gap: $spacing-xl;
+    margin-bottom: $spacing-xl;
+}
+
+.movies-grid {
+    width: 65%;
+
+    .sort-filter {
+        width: 100%;
+        justify-content: flex-end;
+        margin-bottom: $spacing-lg;
+
+        label {
+            color: $dark-gray;
+            font-weight: 500;
+        }
+
+        select {
+            background-color: $white;
+            border: none;
+            color: $text-color;
+            font-size: $font-size-base;
+            margin-left: 10px;
+            padding: $spacing-sm;
+            transition: $transition-base;
+            width: auto;
+
+            &:focus {
+                box-shadow: 0 0 0 2px rgba($dark-gray, 0.1);
+                outline: none;
+            }
+        }
+    }
+
+    .movies-container {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: $spacing-lg;
+    }
+
+    .filter-group {
+        display: flex;
+        align-items: center;
+        margin-bottom: 2rem;
+        padding-top: 1rem;
+
+        label {
+            color: #2f2105;
+            min-width: 60px;
+            font-family: Roboto;
+            font-weight: 700;
+            font-size: 18px;
+            line-height: 20px;
+            letter-spacing: 0.1px;
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        .custom-select {
+            margin-left: 10px;
+        }
+    }
+}
+
+// Медиа-запросы для адаптивности
+@media (max-width: $breakpoint-lg) {
+    .movies-grid {
+        width: 60%;
+    }
+}
+
+@media (max-width: $breakpoint-md) {
+    .movies-grid {
+        width: 100%;
+    }
+}
+
+@media (max-width: $breakpoint-sm) {
+    .movies-grid {
+        .movies-container {
+            grid-template-columns: 1fr;
+        }
+    }
+}
+
+@media (max-width: 992px) {
+    .catalog-layout {
+        gap: $spacing-lg;
+    }
+}
+
+@media (max-width: 768px) {
+    .catalog-layout {
+        flex-direction: column;
+    }
+
+    .movies-grid {
+        width: 100%;
+    }
+}
+
+@media (max-width: 576px) {
+    #movies-grid,
+    .movies-grid {
+        .movies-container .movie-card {
+            flex: 0 0 100%;
+            max-width: 100%;
+        }
+    }
+
+    .movie-filters .filter-group {
+        align-items: flex-start;
+        flex-direction: row;
+        gap: .25rem;
+
+        .custom-select {
+            margin-left: 0;
+        }
+
+        label {
+            min-width: auto;
+        }
+    }
+} 

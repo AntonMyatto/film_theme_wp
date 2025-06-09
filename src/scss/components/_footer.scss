@@ -1,0 +1,33 @@
+@use "../base/variables" as *;
+@use "../base/mixins" as *;
+
+.site-footer {
+    background-color: $secondary-color;
+    color: $white;
+    padding: $spacing-xl 0;
+    width: 100%;
+    margin-top: auto;
+    flex-shrink: 0;
+
+    .footer-content {
+        display: flex;
+        flex-direction: column;
+        gap: $spacing-lg;
+        text-align: center;
+
+        @include respond-to(md) {
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            text-align: left;
+        }
+    }
+
+    .site-info {
+        p {
+            margin: 0;
+            font-size: 0.875rem;
+            opacity: 0.8;
+        }
+    }
+} 

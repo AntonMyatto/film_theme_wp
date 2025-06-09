@@ -1,0 +1,121 @@
+@use "../base/variables" as *;
+@use "../base/mixins" as *;
+
+.post-grid {
+    @include grid(1, $spacing-lg);
+    margin: $spacing-lg 0;
+
+    @include respond-to(md) {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    @include respond-to(lg) {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+.post {
+    @include card;
+
+    .post-thumbnail {
+        position: relative;
+        padding-top: 56.25%; // 16:9 aspect ratio
+        overflow: hidden;
+
+        img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: $transition-base;
+        }
+    }
+
+    .post-content {
+        padding: $spacing-md;
+    }
+
+    .entry-header {
+        margin-bottom: $spacing-md;
+    }
+
+    .entry-title {
+        @include heading;
+        font-size: 1.25rem;
+        margin: 0 0 $spacing-sm;
+
+        a {
+            color: inherit;
+            text-decoration: none;
+
+            &:hover {
+                color: $secondary-color;
+            }
+        }
+    }
+
+    .entry-meta {
+        font-size: 0.875rem;
+        color: $gray;
+    }
+
+    .entry-content {
+        color: $text-color;
+        
+        p {
+            margin-bottom: $spacing-md;
+        }
+    }
+
+    .read-more {
+        @include button;
+        font-size: 0.875rem;
+        margin-top: $spacing-sm;
+    }
+}
+
+// Single post
+.single {
+    .post {
+        box-shadow: none;
+        
+        &:hover {
+            transform: none;
+        }
+
+        .entry-title {
+            font-size: 2rem;
+            margin-bottom: $spacing-md;
+        }
+
+        .post-thumbnail {
+            padding-top: 40%;
+            margin-bottom: $spacing-lg;
+        }
+
+        .entry-content {
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+    }
+}
+
+// No results
+.no-results {
+    text-align: center;
+    padding: $spacing-xl 0;
+
+    .page-title {
+        color: #000;
+        font-size: 2rem;
+        font-weight: 700;
+        line-height: 1.2;
+        margin: 0 0 2rem;
+    }
+
+    p {
+        color: $gray;
+    }
+} 

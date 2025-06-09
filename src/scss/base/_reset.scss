@@ -1,0 +1,129 @@
+@use "variables" as *;
+@use "mixins" as *;
+
+/* Reset */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-size: $font-size-base;
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    height: 100%;
+}
+
+body {
+    font-family: $font-family-base;
+    font-size: 1rem;
+    line-height: $line-height-base;
+    color: $text-color;
+    background-color: $white;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+
+    &.menu-open {
+        overflow: hidden;
+    }
+}
+
+/* Main content wrapper */
+#page {
+    flex: 1 0 auto;
+    display: flex;
+    flex-direction: column;
+}
+
+#primary {
+    flex: 1 0 auto;
+}
+
+article,
+aside,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+main,
+nav,
+section {
+    display: block;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    vertical-align: middle;
+    border-style: none;
+}
+
+button,
+input,
+optgroup,
+select,
+textarea {
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+    margin: 0;
+}
+
+button,
+input {
+    overflow: visible;
+}
+
+button,
+select {
+    text-transform: none;
+}
+
+button,
+[type="button"],
+[type="reset"],
+[type="submit"] {
+    -webkit-appearance: button;
+}
+
+button::-moz-focus-inner,
+[type="button"]::-moz-focus-inner,
+[type="reset"]::-moz-focus-inner,
+[type="submit"]::-moz-focus-inner {
+    border-style: none;
+    padding: 0;
+}
+
+button:-moz-focusring,
+[type="button"]:-moz-focusring,
+[type="reset"]:-moz-focusring,
+[type="submit"]:-moz-focusring {
+    outline: 1px dotted ButtonText;
+}
+
+[tabindex="-1"]:focus:not(:focus-visible) {
+    outline: 0 !important;
+}
+
+/* Container */
+.container {
+    max-width: $container-max-width;
+    margin: 0 auto;
+    padding: 0 $container-padding;
+}
+
+.site-content {
+    flex: 1;
+    min-height: calc(100vh - 200px); // Учитываем примерную высоту header + footer
+}
+
+.content-area {
+    flex: 1;
+} 

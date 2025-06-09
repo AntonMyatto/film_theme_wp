@@ -1,0 +1,185 @@
+@use "../base/variables" as *;
+@use "../base/mixins" as *;
+
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 $spacing-md;
+
+    @include respond-to(md) {
+        padding: 0 $spacing-lg;
+    }
+}
+
+.page-title {
+    @include heading;
+    font-size: 2rem;
+    color: #000;
+    margin: 0 0 $spacing-xl;
+}
+
+.page-title--catalog {
+    text-align: center;
+    
+    span {
+        color: #FF902B;
+    }
+}
+
+.archive-header {
+    margin-bottom: $spacing-xl;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: $spacing-lg;
+
+    @include respond-to(md) {
+        justify-content: space-between;
+    }
+}
+
+.archive-title {
+    @include heading;
+    font-size: 2rem;
+    margin: 0;
+    flex: 1;
+
+    @include respond-to(md) {
+        flex: 0 0 auto;
+    }
+}
+
+.movie-sorting {
+    flex: 1;
+    max-width: 300px;
+    margin-left: auto;
+
+    .sorting-form {
+        display: flex;
+        align-items: center;
+    }
+
+    .sorting-group {
+        display: flex;
+        align-items: center;
+        gap: $spacing-xs;
+        width: 100%;
+        
+        label {
+            color: $dark-gray;
+            font-size: 0.875rem;
+            white-space: nowrap;
+        }
+    }
+
+    .sorting-select {
+        flex: 1;
+        appearance: none;
+        background-color: $white;
+        border: 1px solid $border-color;
+        border-radius: $border-radius;
+        padding: $spacing-xs $spacing-sm;
+        font-size: 0.875rem;
+        color: $text-color;
+        cursor: pointer;
+        transition: $transition-base;
+
+        &:hover,
+        &:focus {
+            border-color: $primary-color;
+            outline: none;
+        }
+    }
+
+    .sorting-submit {
+        background: none;
+        border: none;
+        padding: $spacing-xs;
+        color: $dark-gray;
+        cursor: pointer;
+        transition: $transition-base;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        &:hover {
+            color: $primary-color;
+        }
+
+        svg {
+            width: 16px;
+            height: 16px;
+        }
+    }
+}
+
+// Новый макет каталога
+.catalog-layout {
+    display: flex;
+    gap: $spacing-xl;
+    margin-bottom: $spacing-xl;
+}
+
+.no-movies {
+    text-align: center;
+    padding: $spacing-xl;
+    color: $dark-gray;
+    font-size: 1.125rem;
+}
+
+// Pagination styles
+.pagination {
+    margin-top: $spacing-xl;
+    
+    .page-numbers {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: $spacing-sm;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+
+        li {
+            margin: 0;
+        }
+
+        a,
+        span {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 36px;
+            height: 36px;
+            padding: 0 $spacing-sm;
+            border: 1px solid $border-color;
+            border-radius: $border-radius;
+            color: $text-color;
+            text-decoration: none;
+            transition: $transition-base;
+
+            &:hover {
+                border-color: $primary-color;
+                color: $primary-color;
+            }
+        }
+
+        .current {
+            background-color: $primary-color;
+            border-color: $primary-color;
+            color: $white;
+        }
+
+        .dots {
+            border: none;
+        }
+    }
+}
+
+// Мобильная версия
+@media (max-width: 768px) {
+    .catalog-layout {
+        flex-direction: column;
+    }
+} 

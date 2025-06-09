@@ -1,0 +1,103 @@
+@use "../base/variables" as *;
+@use "../base/mixins" as *;
+
+.hero-section {
+    background-color: $light-gray;
+    padding: $spacing-xl 0;
+    margin-bottom: 40px;
+
+    .hero-container {
+        @include container;
+        display: flex;
+        align-items: center;
+        gap: $spacing-xl;
+
+        @media (max-width: 768px) {
+            flex-direction: column;
+            text-align: center;
+            gap: $spacing-lg;
+        }
+    }
+
+    .hero-content {
+        flex: 1;
+        max-width: 600px;
+
+        h1 {
+            font-family: 'Roboto';
+            font-weight: 600;
+            font-size: 48px;
+            line-height: 120%;
+            color: $black;
+            margin-bottom: $spacing-md;
+
+            span {
+                color: $third-color;
+            }
+        }
+
+        p {
+            font-size: 16px;
+            line-height: 150%;
+            color: $text-color;
+            margin-bottom: $spacing-lg;
+        }
+
+        .hero-actions {
+            align-items: center;
+            display: flex;
+            justify-content: space-between;
+            margin-top: 1.5rem;
+            max-width: 280px;
+
+            .register-btn {
+                background-color: $black;
+                color: $white;
+                padding: 12px 24px;
+                border-radius: 20px;
+                text-decoration: none;
+                font-weight: 500;
+                transition: $transition-base;
+
+                &:hover {
+                    opacity: 0.9;
+                }
+            }
+
+            .about-link {
+                color: $third-color;
+                text-decoration: none;
+                font-weight: 500;
+                transition: $transition-base;
+
+                &:hover {
+                    text-decoration: underline;
+                }
+            }
+
+            @media (max-width: 768px) {
+                flex-direction: column;
+                gap: $spacing-md;
+                margin: 1.5rem auto 0;
+            }
+        }
+    }
+
+    .hero-image {
+        flex: 1;
+        max-width: 500px;
+        margin: 0 auto;
+        
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            -o-object-fit: cover;
+        }
+
+        @media (max-width: 768px) {
+            max-width: 100%;
+            padding: 0 $spacing-md;
+        }
+    }
+} 

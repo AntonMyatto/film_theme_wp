@@ -1,0 +1,109 @@
+@use "../base/variables" as *;
+@use "../base/mixins" as *;
+
+.movie-single {
+
+    .movie-header {
+        display: grid;
+        gap: $spacing-lg;
+        margin-bottom: $spacing-xl;
+
+        @include respond-to(md) {
+            grid-template-columns: 314px 1fr;
+        }
+    }
+
+    .movie-poster {
+        @include card;
+        overflow: hidden;
+        max-width: 314px;
+        margin: 0 auto;
+        width: 100%;
+
+        img {
+            width: 100%;
+            height: auto;
+            aspect-ratio: 2/3;
+            object-fit: cover;
+            display: block;
+        }
+    }
+
+    .movie-meta {
+        .movie-title {
+            @include heading;
+            font-size: 2rem;
+            margin: 0 0 $spacing-lg;
+        }
+    }
+
+    .movie-details {
+        display: flex;
+        flex-direction: column;
+        gap: $spacing-md;
+
+        .detail-item {
+            display: flex;
+            align-items: center;
+            gap: $spacing-sm;
+
+            .label {
+                font-weight: 500;
+                color: $dark-gray;
+                min-width: 120px;
+            }
+
+            .value {
+                color: $text-color;
+
+                &.rating-value {
+                    color: $secondary-color;
+                    font-weight: 500;
+                    display: flex;
+                    align-items: center;
+                    gap: 4px;
+
+                    .rating-star {
+                        color: #FFD700;
+                        font-size: 1.2em;
+                        line-height: 1;
+                    }
+                }
+            }
+        }
+
+        .movie-genres {
+            display: flex;
+            flex-wrap: wrap;
+            gap: $spacing-xs;
+        }
+    }
+
+    .movie-content {
+        margin-bottom: $spacing-xl;
+
+        h2 {
+            @include heading;
+            font-size: 1.5rem;
+            margin: 0 0 $spacing-md;
+        }
+
+        p {
+            margin-bottom: $spacing-md;
+            line-height: $line-height-base;
+            color: $text-color;
+        }
+    }
+
+    .related-movies {
+        margin-top: $spacing-xl;
+        padding-top: $spacing-xl;
+        border-top: 1px solid $light-gray;
+
+        h2 {
+            @include heading;
+            font-size: 1.5rem;
+            margin: 0 0 $spacing-lg;
+        }
+    }
+} 

@@ -1,0 +1,32 @@
+/*
+Theme Name: Movie Catalog
+Theme URI: http://example.com/movie-catalog
+Author: Your Name
+Author URI: http://example.com
+Description: Тема для каталога фильмов
+Version: 1.0
+License: GNU General Public License v2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: movie-catalog
+*/
+
+// Base
+@use "base/variables" as *;
+@use "base/mixins" as *;
+@use "base/reset";
+@use "base/typography";
+
+// Components
+@use "components/header";
+@use "components/footer";
+@use "components/movie-card";
+@use "components/filters";
+@use "components/pagination";
+@use "components/post";
+@use "components/catalog";
+@use "components/archive" as archive-component;
+@use "components/hero";
+
+// Pages
+@use "pages/archive" as archive-page;
+@use "pages/single"; 

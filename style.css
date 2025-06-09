@@ -1,11 +1,15 @@
 /*
-Theme Name: Movie Catalog
-Theme URI: http://localhost/movie-catalog
-Author: Anton Tarasiuk
-Author URI: http://localhost
-Description: Тема для каталога фильмов
-Version: 1.0 
+Theme Name: Tarasiuk Movie Catalog
+Theme URI: https://github.com/AntonMyatto/film_theme_wp
+Description: Тема WordPress для создания каталога фильмов с возможностью фильтрации, сортировки и динамической подгрузки контента.
+Author: Anton Tarasiuk  
+Author URI: https://github.com/AntonMyatto/
+Version: 1.0.0
+Requires at least: 5.8
+Tested up to: 6.4
+Requires PHP: 7.4
 License: GNU General Public License v2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Text Domain: movie-catalog
-*/ 
+*/
+
