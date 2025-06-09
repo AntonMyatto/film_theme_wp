@@ -14,7 +14,7 @@ export class MovieLoader {
         if (this.button && this.moviesContainer) {
             this.maxPages = parseInt(this.button.dataset.maxPages) || 1;
             this.button.addEventListener('click', () => this.loadMore());
-            this.updateButtonVisibility();
+            setTimeout(() => this.updateButtonVisibility(), 100);
             this.log('Initial state:', {
                 currentPage: this.currentPage,
                 maxPages: this.maxPages
@@ -29,16 +29,21 @@ export class MovieLoader {
     updateButtonVisibility() {
         if (!this.button) return;
         
-        if (!this.hasMorePages()) {
+        if (!this.moviesContainer) {
             this.button.style.display = 'none';
-        } else {
-            this.button.style.display = 'inline-block';
+            return;
         }
+
+        const loadedMovies = this.moviesContainer.children.length;
+        const shouldShow = this.hasMorePages() && loadedMovies > 0;
+        
+        this.button.style.display = shouldShow ? 'inline-block' : 'none';
         
         this.log('Button visibility updated:', {
             currentPage: this.currentPage,
             maxPages: this.maxPages,
-            visible: this.hasMorePages()
+            visible: shouldShow,
+            loadedMovies: loadedMovies
         });
     }
 
@@ -88,26 +93,28 @@ export class MovieLoader {
                 const tempContainer = document.createElement('div');
                 tempContainer.innerHTML = data.data.html;
                 
-                while (tempContainer.firstChild) {
-                    this.moviesContainer.appendChild(tempContainer.firstChild);
+                if (tempContainer.children.length > 0) {
+                    while (tempContainer.firstChild) {
+                        this.moviesContainer.appendChild(tempContainer.firstChild);
+                    }
+                    
+                    this.currentPage = parseInt(data.data.currentPage) || this.currentPage;
+                    this.maxPages = parseInt(data.data.maxPages) || this.maxPages;
+                    
+                    if (this.button) {
+                        this.button.dataset.page = this.currentPage;
+                        this.button.dataset.maxPages = this.maxPages;
+                    }
+                    
+                    this.log('State updated:', {
+                        currentPage: this.currentPage,
+                        maxPages: this.maxPages,
+                        totalPosts: data.data.totalPosts,
+                        debug: data.data.debug
+                    });
                 }
                 
-                this.currentPage = parseInt(data.data.currentPage) || this.currentPage;
-                this.maxPages = parseInt(data.data.maxPages) || this.maxPages;
-                
-                this.log('State updated:', {
-                    currentPage: this.currentPage,
-                    maxPages: this.maxPages,
-                    totalPosts: data.data.totalPosts,
-                    debug: data.data.debug
-                });
-
-                if (this.button) {
-                    this.button.dataset.page = this.currentPage;
-                    this.button.dataset.maxPages = this.maxPages;
-                }
-                
-                this.updateButtonVisibility();
+                setTimeout(() => this.updateButtonVisibility(), 100);
             } else {
                 console.error('Error loading movies:', data.data?.message || 'Unknown error');
                 this.updateButtonVisibility();

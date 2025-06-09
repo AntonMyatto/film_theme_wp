@@ -20,10 +20,8 @@
     <h1 class="page-title page-title--catalog">Discover a <span>Universe</span> of Cinematic Marvels</h1>
 
     <div class="catalog-layout">
-        <!-- Фильтры -->
         <?php get_template_part('template-parts/filters'); ?>
 
-        <!-- Список фильмов -->
         <div id="movies-grid" class="movies-grid">
             <div class="filter-group">
                 <label for="sort-filter">Sort&nbsp;by:</label>
@@ -74,7 +72,7 @@
                     $args['orderby'] = 'meta_value_num';
                     $args['order'] = 'DESC';
                     break;
-                default: // rating is default now
+                default:
                     $args['meta_key'] = 'rating';
                     $args['orderby'] = 'meta_value_num';
                     $args['order'] = 'DESC';
@@ -95,7 +93,6 @@
             <?php endif; ?>
             </div>
 
-            <!-- Кнопка "Загрузить еще" -->
             <?php if ($movies->max_num_pages > 1) : ?>
                 <div class="load-more-container">
                     <button id="load-more" class="load-more-button" 

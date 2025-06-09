@@ -167,14 +167,6 @@ class Movie_Catalog_Theme_Settings {
             'movie-catalog-settings',
             'movie_catalog_general_settings'
         );
-
-        add_settings_field(
-            'movie_catalog_export',
-            __('Экспорт фильмов', 'movie-catalog'),
-            array($this, 'render_export_field'),
-            'movie-catalog-settings',
-            'movie_catalog_general_settings'
-        );
     }
 
     /**
