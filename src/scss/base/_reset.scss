@@ -25,7 +25,7 @@ body {
     background-color: $white;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    min-height: 100%;
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
 
@@ -36,13 +36,15 @@ body {
 
 /* Main content wrapper */
 #page {
-    flex: 1 0 auto;
     display: flex;
     flex-direction: column;
+    min-height: 100vh;
+    width: 100%;
 }
 
 #primary {
     flex: 1 0 auto;
+    width: 100%;
 }
 
 article,
@@ -112,7 +114,6 @@ button:-moz-focusring,
     outline: 0 !important;
 }
 
-/* Container */
 .container {
     max-width: $container-max-width;
     margin: 0 auto;
@@ -120,10 +121,13 @@ button:-moz-focusring,
 }
 
 .site-content {
-    flex: 1;
-    min-height: calc(100vh - 200px); // Учитываем примерную высоту header + footer
+    flex: 1 0 auto;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
 }
 
 .content-area {
-    flex: 1;
+    flex: 1 0 auto;
+    width: 100%;
 } 

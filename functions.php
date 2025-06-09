@@ -121,6 +121,15 @@ function movie_catalog_register_acf_fields() {
                     'required' => 1,
                     'min' => 1900,
                     'max' => date('Y')
+                ),
+                array(
+                    'key' => 'field_poster',
+                    'label' => 'Постер',
+                    'name' => 'poster',
+                    'type' => 'image',
+                    'return_format' => 'array',
+                    'preview_size' => 'medium',
+                    'library' => 'all'
                 )
             ),
             'location' => array(
@@ -476,6 +485,11 @@ function upload_minimal_content() {
         wp_send_json_error(array('message' => __('У вас нет прав для выполнения этого действия', 'movie-catalog')));
     }
 
+    if (!function_exists('update_field')) {
+        wp_send_json_error(array('message' => __('ACF плагин не активен', 'movie-catalog')));
+        return;
+    }
+
     $genres = array(
         'action' => 'Боевик',
         'comedy' => 'Комедия',
@@ -491,36 +505,80 @@ function upload_minimal_content() {
         array(
             'title' => 'Inception',
             'year' => '2010',
+            'rating' => '6.8',  
+            'release_date' => '20100716',
+            'poster' => get_template_directory_uri() . '/assets/img/inception.jpg',
             'genres' => array('action', 'thriller'),
             'description' => 'A thief who steals corporate secrets through the use of dream-sharing technology is given the inverse task of planting an idea into the mind of a C.E.O.'
         ),
         array(
             'title' => 'The Shawshank Redemption',
             'year' => '1994',
+            'rating' => '5.3',
+            'release_date' => '19940923',
+            'poster' => get_template_directory_uri() . '/assets/img/shawshank.jpg',
             'genres' => array('drama'),
             'description' => 'Two imprisoned men bond over a number of years, finding solace and eventual redemption through acts of common decency.'
         ),
         array(
             'title' => 'The Dark Knight',
             'year' => '2008',
+            'rating' => '4.0',
+            'release_date' => '20080718',
+            'poster' => get_template_directory_uri() . '/assets/img/bat.jpg',
             'genres' => array('action', 'drama'),
             'description' => 'When the menace known as the Joker wreaks havoc and chaos on the people of Gotham, Batman must accept one of the greatest psychological and physical tests of his ability to fight injustice.'
         ),
         array(
             'title' => 'Pulp Fiction',
             'year' => '1994',
+            'poster' => get_template_directory_uri() . '/assets/img/pulp.jpg',
+            'rating' => '8.9',
+            'release_date' => '19941014',
             'genres' => array('thriller', 'drama'),
             'description' => 'The lives of two mob hitmen, a boxer, a gangster and his wife, and a pair of diner bandits intertwine in four tales of violence and redemption.'
-        )
-        ,
+        ),
         array(
             'title' => 'Taxi',
             'year' => '2001',
+            'rating' => '10',
+            'release_date' => '20010101',
+            'poster' => get_template_directory_uri() . '/assets/img/taxi.jpg',
             'genres' => array('thriller', 'drama'),
-            'description' => 'The lives of two mob hitmen, a boxer, a gangster and his wife, and a pair of diner bandits intertwine in four tales of violence and redemption.The lives of two mob hitmen, a boxer, a gangster and his wife, and a pair of diner bandits intertwine in four tales of violence and redemption.'
+            'description' => 'The lives of two mob hitmen, a boxer, a gangster and his wife, and a pair of diner bandits intertwine in four tales of violence and redemption.'
+        ),
+        array(
+            'title' => 'The Matrix',
+            'year' => '1999',
+            'rating' => '9.2',
+            'release_date' => '19990331',
+            'poster' => get_template_directory_uri() . '/assets/img/matrix.jpg',
+            'genres' => array('action', 'thriller'),
+            'description' => 'When a beautiful stranger leads computer hacker Neo to a forbidding underworld, he discovers the shocking truth--the life he knows is the elaborate deception of an evil cyber-intelligence.'
+        ),
+        array(
+            'title' => 'Forrest Gump',
+            'year' => '1994',
+            'rating' => '8.8',
+            'release_date' => '19940706',
+            'poster' => get_template_directory_uri() . '/assets/img/forest.jpg',
+            'genres' => array('drama', 'comedy'),
+            'description' => 'The presidencies of Kennedy and Johnson, the Vietnam War, the Watergate scandal and other historical events unfold from the perspective of an Alabama man with an IQ of 75, whose only desire is to be reunited with his childhood sweetheart.'
+        ),
+        array(
+            'title' => 'Fight Club',
+            'year' => '1999',
+            'rating' => '8.7',
+            'release_date' => '19991015',
+            'poster' => get_template_directory_uri() . '/assets/img/fight.jpg',
+            'genres' => array('drama', 'thriller'),
+            'description' => 'An insomniac office worker and a devil-may-care soapmaker form an underground fight club that evolves into something much, much more.'
         )
     );
 
+    $debug_info = array();
+    $uploaded_movies = 0;
+    
     foreach ($movies as $movie) {
         $post_data = array(
             'post_title' => $movie['title'],
@@ -532,18 +590,67 @@ function upload_minimal_content() {
         $post_id = wp_insert_post($post_data);
 
         if (!is_wp_error($post_id)) {
-            update_post_meta($post_id, 'year', $movie['year']);
+            $movie_debug = array(
+                'post_id' => $post_id,
+                'title' => $movie['title']
+            );
 
-            wp_set_object_terms($post_id, $movie['genres'], 'movie_genre');
+            update_field('year', $movie['year'], $post_id);
+            $movie_debug['year'] = array(
+                'value' => $movie['year'],
+                'status' => get_field('year', $post_id)
+            );
+
+            update_field('rating', $movie['rating'], $post_id);
+            $movie_debug['rating'] = array(
+                'value' => $movie['rating'],
+                'status' => get_field('rating', $post_id)
+            );
+
+            if (isset($movie['release_date'])) {
+                update_field('release_date', $movie['release_date'], $post_id);
+                $movie_debug['release_date'] = array(
+                    'value' => $movie['release_date'],
+                    'status' => get_field('release_date', $post_id)
+                );
+            }
+
+            if (!empty($movie['genres'])) {
+                wp_set_object_terms($post_id, $movie['genres'], 'movie_genre');
+            }
+
+            if (!empty($movie['poster'])) {
+                require_once(ABSPATH . 'wp-admin/includes/media.php');
+                require_once(ABSPATH . 'wp-admin/includes/file.php');
+                require_once(ABSPATH . 'wp-admin/includes/image.php');
+
+                $image_url = media_sideload_image($movie['poster'], $post_id, $movie['title'], 'id');
+                
+                if (!is_wp_error($image_url)) {
+                    set_post_thumbnail($post_id, $image_url);
+                    
+                    update_field('field_poster', $image_url, $post_id);
+                    
+                    $movie_debug['poster'] = array(
+                        'attachment_id' => $image_url,
+                        'featured_image' => get_post_thumbnail_id($post_id),
+                        'acf_field' => get_field('field_poster', $post_id)
+                    );
+                }
+            }
+
+            $debug_info[] = $movie_debug;
+            $uploaded_movies++;
         }
     }
 
     wp_send_json_success(array(
         'message' => sprintf(
             __('Успешно добавлено: %d фильмов и %d жанров', 'movie-catalog'),
-            count($movies),
+            $uploaded_movies,
             count($genres)
-        )
+        ),
+        'debug_info' => $debug_info
     ));
 }
 add_action('wp_ajax_upload_minimal_content', 'upload_minimal_content');

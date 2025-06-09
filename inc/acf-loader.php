@@ -14,14 +14,15 @@ class Movie_Catalog_ACF_Loader {
      * Constructor
      */
     public function __construct() {
+        if (!class_exists('ACF')) {
+            add_action('admin_notices', array($this, 'check_acf_active'));
+            return;
+        }
+
         add_filter('acf/settings/save_json', array($this, 'set_acf_json_save_point'));
         add_filter('acf/settings/load_json', array($this, 'add_acf_json_load_point'));
-
-        add_action('admin_notices', array($this, 'check_acf_active'));
         
-        if (!defined('WP_DEBUG') || !WP_DEBUG) {
-            add_filter('acf/settings/show_admin', '__return_false');
-        }
+        require_once get_template_directory() . '/inc/acf-fields.php';
     }
 
     /**
@@ -29,6 +30,11 @@ class Movie_Catalog_ACF_Loader {
      */
     public function set_acf_json_save_point($path) {
         $path = get_stylesheet_directory() . '/acf-json';
+        
+        if (!file_exists($path)) {
+            wp_mkdir_p($path);
+        }
+        
         return $path;
     }
 
@@ -44,15 +50,15 @@ class Movie_Catalog_ACF_Loader {
      * Check if ACF is active and display notice if not
      */
     public function check_acf_active() {
-        if (!class_exists('ACF')) {
-            ?>
-            <div class="notice notice-error">
-                <p>Для работы темы Movie Catalog необходим плагин Advanced Custom Fields. 
-                <a href="<?php echo esc_url(admin_url('plugin-install.php?tab=plugin-information&plugin=advanced-custom-fields')); ?>">Установить плагин</a></p>
-            </div>
-            <?php
-        }
+        ?>
+        <div class="notice notice-error">
+            <p>Для работы темы Movie Catalog необходим плагин Advanced Custom Fields PRO. 
+            <a href="<?php echo esc_url(admin_url('plugin-install.php?tab=plugin-information&plugin=advanced-custom-fields')); ?>">Установить плагин</a></p>
+        </div>
+        <?php
     }
 }
 
-new Movie_Catalog_ACF_Loader(); 
+add_action('after_setup_theme', function() {
+    new Movie_Catalog_ACF_Loader();
+}); 
